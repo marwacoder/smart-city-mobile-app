@@ -1,4 +1,4 @@
-import {images} from '../constants'
+import {images, icons} from '../constants'
 
 const hotels = [
   {
@@ -181,6 +181,20 @@ const restaurant = [
       "email": "softies@gmail.com",
       "phoneNumber": "08035816287",
       "image": require('../assets/images/hotel3.jpg'),
+  },
+  {
+    "businessId": 547164,
+      "businessName": "A.B.U",
+      "typeofBusiness": "Taxi",
+      "location": "Ungwan pama kaduna, Kaduna.",
+      "cordinate": {
+        "latitude": 11.0823955,
+        "longitude": 7.6929798,
+      },
+      "description": "delicious food servered",
+      "email": "softies@gmail.com",
+      "phoneNumber": "08035816287",
+      "image": icons.car
   }
 ]
 

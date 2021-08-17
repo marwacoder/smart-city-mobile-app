@@ -1,5 +1,4 @@
 import React, {useCallback} from 'react';
-import ImagePicker from 'react-native-image-crop-picker'
 import {
   TextArea,
   Text,
@@ -7,7 +6,8 @@ import {
   Box,
   Input,
   Menu,
-  Spinner,
+  useToast,
+  Divider,
   FormControl,
 } from 'native-base';
 import {
@@ -18,30 +18,55 @@ import {
   SafeAreaView
 } from 'react-native';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import {icons} from '../../constants'
 
+
+import {launchImageLibrary} from 'react-native-image-picker'
+
+import {addBusiness} from '../../store/actions'
+import {useDispatch, useSelector} from 'react-redux'
+
+
+const BUSINESS = ['Airline', 'Hotel', 'Restaurant', "Taxi", 'Logistic', 'Bus', 'Event', 'Train','Apartment']
 
 const AddItem = ({route, navigation}) => {
   const [shouldOverlapWithTrigger] = React.useState(false)
-  const [businessDetails, setBusinessDetails] = React.useState({
-    busName: '',
-    location: '',
-    latitude: '',
-    longitude: '',
-    description: '',
-    imagePath: '',
-  });
+  const [showPass, setShowPass] = React.useState(false);
+  
+  
+  const [businessName, setBusinessName] = React.useState('');
+  const [typeofBusiness, setTypeofBusiness] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [phoneNumber, setPhoneNumber] = React.useState('');
+  const [location, setLocation] = React.useState('');
+  const [latitude, setLatitude] = React.useState('');
+  const [longitude, setLongitude] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [photo, setPhoto] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
-  const [photo, setPhoto] = React.useState(null);
+  const { message, isLoading, error } =  useSelector(state => state.business || [])
+const dispatch = useDispatch();
+  const toast = useToast();
+
+  const onShowPass =()=> setShowPass(!showPass)
+ 
 
 
+
+  const takeBusinessPhotoFromGallery = () => {
+    launchImageLibrary({ noData: true }, (response) => {
+        // console.log(response);
+        if (response) {
+          setPhoto(response);
+        }
+      });
+  };
  
   React.useEffect(() => {
     if (typeof route.params !== 'undefined') {
       setBusinessDetails({
-        busName: route.params.name,
+        businessName: route.params.name,
         location: route.params.location,
         latitude: route.params.latitude,
         longitude: route.params.longitude,
@@ -52,22 +77,27 @@ const AddItem = ({route, navigation}) => {
   }, []);
 
 
-  const takePhotoFromGallery = () => {
-    ImagePicker.openPicker({
-      compressImageMaxHeight: 400,
-      compressImageMaxWidth: 400,
-      cropping: true,
-      useFrontCamera: true,
-      compressImageQuality: 0.7,
+ const onSubmitHandler = ()=> {
+   
+  dispatch(addBusiness({photo, businessName, typeofBusiness, location, cordinate: {latitude, longitude}, email, phoneNumber, description, password}))
+  if (error === true ){
+    toast.show({
+    title: message,
+    status: "error",
+    placement: 'top-right',
+    description: "Error Adding Business",
+  })
+  }else {
+    toast.show({
+      title: message,
+      status: "success",
+      placement: 'top-right',
+      description: "Success Adding Business"
     })
-      .then(image => {
-        console.log(image);
-        setPhoto(image);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  }  
+  }
+
+  
 
 
   return (
@@ -94,14 +124,16 @@ const AddItem = ({route, navigation}) => {
             <FormControl>            
                 <Box>
                         
+                        
                         <Input
                         _focus={{
                           borderColor:"yellow.200"
                         }}
-                        InputLeftElement={<MaterialIcons active size={25} name="business" />}
+                        InputLeftElement={<icons.MaterialIcons active size={25} name="business" />}
                         mb={3}
                           placeholder="Business Name"
-                          value={businessDetails.busName}
+                          onChangeText={(text)=>setBusinessName(text)}
+                          value={businessName}
                         />
 
                         <Input
@@ -109,7 +141,7 @@ const AddItem = ({route, navigation}) => {
                         _focus={{
                           borderColor:"yellow.200"
                         }}
-                        InputLeftElement={<MaterialIcons active size={25} name="business" />}
+                        InputLeftElement={<icons.Ionicons  size={25} name="grid-outline" />}
                         InputRightElement={<Menu
                           shouldOverlapWithTrigger={shouldOverlapWithTrigger} // @ts-ignore
                           placement='left'
@@ -119,77 +151,122 @@ const AddItem = ({route, navigation}) => {
                                 bg: 'blueGray.50'
                               }} _text={{
                                 color:'black'
-                              }}  startIcon={<AntDesign name='down'   size={20}/>} alignSelf="center"  {...triggerProps}></Button>
+                              }}  startIcon={<icons.AntDesign name='down'   size={20}/>} alignSelf="center"  {...triggerProps}></Button>
                             )
                           }}
                         >
-                          <Menu.Item>Large Menu item 1</Menu.Item>
-                          <Menu.Item>Large Menu item 2</Menu.Item>
-                          <Menu.Item>Large Menu item 3</Menu.Item>
+                          {BUSINESS.map((bus, index)=> (
+                            <Box key={index}>
+                              <Menu.Item   onPress={()=>setTypeofBusiness(bus)}>{bus}</Menu.Item>
+                              <Divider/>
+                            </Box>
+                          ))}
+                          
                         </Menu>}
                         mb={3}
                           placeholder="Business Type"
-                          value={businessDetails.busName}
+                          value={typeofBusiness}
+                        />
+
+<Input
+                        _focus={{
+                          borderColor:"yellow.200"
+                        }}
+                        InputLeftElement={<icons.Fontisto name='email'  size={20}/>}
+                        mb={3}
+                          placeholder="Business Email Address"
+                          onChangeText={(text)=>setEmail(text)}
+                          value={email}
+                        />
+                        <Input
+                        _focus={{
+                          borderColor:"yellow.200"
+                        }}
+                        InputLeftElement={<icons.AntDesign active size={25} name="phone" />}
+                        mb={3}
+                          placeholder="Business Phone Number"
+                          onChangeText={(text)=>setPhoneNumber(text)}
+                          value={email}
                         />
 
                       <Input
+                      onChangeText={(text)=>setLocation(text)}
+
                       _focus={{
                         borderColor:"yellow.200"
                       }}
                       mb={3}
-                        InputLeftElement={<MaterialIcons active size={25}  name="location-on" />}
+                        InputLeftElement={<icons.MaterialIcons active size={25}  name="location-on" />}
                   
                         placeholder="Location"
-                          value={businessDetails.location}
+                          value={location}
                         />
 
                         <Input
+                        onChangeText={(text)=>setLatitude(text)}
                         mb={3}
                         _focus={{
                           borderColor:"yellow.200"
                         }}
-                        InputLeftElement={<MaterialCommunityIcons active size={25} name="latitude" />}
+                        InputLeftElement={<icons.MaterialCommunityIcons active size={25} name="latitude" />}
                   
                         placeholder="Latitude"
-                        value={businessDetails.latitude}
+                        value={latitude}
                         />
                         <Input
+                        onChangeText={(text)=>setLongitude(text)}
+                        
                         mb={3}
                         _focus={{
                           borderColor:"yellow.200"
                         }}
-                        InputLeftElement={<MaterialCommunityIcons active size={25} name="longitude" />}
+                        InputLeftElement={<icons.MaterialCommunityIcons active size={25} name="longitude" />}
                   
                         placeholder="Longitude"
-                        value={businessDetails.longitude}
+                        value={longitude}
+                        />
+                         <Input
+                         type={ showPass ? 'password': 'text'}
+                         onChangeText={(text)=>setPassword(text)}
+                        mb={3}
+                        _focus={{
+                          borderColor:"yellow.200"
+                        }}
+                        InputLeftElement={<icons.MaterialCommunityIcons active size={25} name="lock" />}
+                        InputRightElement={<Box mr={2} >{showPass ? <icons.Ionicons  onPress={onShowPass} size={25} name="ios-eye" />:<icons.Ionicons onPress={onShowPass}  size={25} name="ios-eye-off" />}</Box> }
+                  
+                        placeholder="Password"
+                        value={password}
                         />
                         <TextArea
+                        onChangeText={(text)=>setDescription(text)}
                         _focus={{
                           borderColor:"yellow.200"
                         }}
                         mb={3}
                         placeholder="Description of Business"
-                       value={businessDetails.description}
+                       value={description}
                         />
 
                         <Button
-                        onPress={takePhotoFromGallery}
+                        onPress={takeBusinessPhotoFromGallery}
                         _text={{
                           color: 'black'
                         }}
                         _pressed={{
                         bg: 'yellow.300'
-                      }}    endIcon={photo ? <MaterialIcons name='check-circle'  size={20}/> :<MaterialIcons name='add-a-photo'  size={20}/>} bg='yellow.500'>
+                      }}    endIcon={photo ? <icons.MaterialIcons name='check-circle'  size={20}/> :<icons.MaterialIcons name='add-a-photo'  size={20}/>} bg='yellow.500'>
                         UPLOAD IMAGE
                       </Button>
 
                       <Button mt={3} bg='yellow.500' 
+                      onPress={onSubmitHandler}
                       _pressed={{
                         bg: 'yellow.300'
                       }} 
                       _text={{
                         color: "black",
-                      }} spinner={<Spinner color='black' size={20}/>} isLoading={true} >SUBMIT</Button>
+                      }}  isLoadingText="Submitting"  >SUBMIT</Button>
 
                       </Box>
             </FormControl>

@@ -31,6 +31,9 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {COLORS, FONTS} from '../../constants/';
+import {useDispatch, useSelector} from 'react-redux'
+
+import {getBusiness} from '../../store/actions'
 
 const {width, height} = Dimensions.get('screen')
 
@@ -72,6 +75,14 @@ const hotels = [
 function Business({navigation}) {
   const [hotel, setHotels] = React.useState(hotels);
 
+  const {business, message, isLoading, error } =  useSelector(state => state.business || [])
+  const dispatch = useDispatch()
+
+
+
+  React.useEffect(()=>{
+    dispatch(getBusiness())
+  ,[]})
   const VisibleItem = props => {
     const {
       data,
@@ -85,7 +96,7 @@ function Business({navigation}) {
       Animated.timing(rowHeightAnimatedValue, {
         toValue: 0,
         duration: 200,
-        useNativeDriver: false,
+        useNativeDriver: true,
       }).start(() => {
         removeRow();
       });

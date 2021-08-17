@@ -1,4 +1,4 @@
-import Onboarding from './Onboarding';
+import Onboarding from './onboarding/Onboarding';
 import Home from './Home';
 import DestinationDetail from './restaurants/DestinationDetail';
 import Restaurants from './restaurants/restaurant/Home';

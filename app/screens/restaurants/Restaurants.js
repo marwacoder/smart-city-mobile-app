@@ -15,17 +15,19 @@ import {icons, COLORS, SIZES, FONTS} from '../../constants';
 
 const Restaurant = ({route, navigation}) => {
   const scrollX = new Animated.Value(0);
-  const [restaurant, setRestaurant] = React.useState(null);
-  const [currentLocation, setCurrentLocation] = React.useState(null);
+  const [restaurant, setRestaurant] = React.useState({});
+
   const [orderItems, setOrderItems] = React.useState([]);
   const [showPayment, setShowPayment] = React.useState(false);
 
   React.useEffect(() => {
-    let {item, currentLocation} = route.params;
+    let {item} = route.params;
 
     setRestaurant(item);
-    setCurrentLocation(currentLocation);
   });
+
+
+
 
 
   function editOrder(action, menuId, price) {
@@ -119,7 +121,7 @@ const Restaurant = ({route, navigation}) => {
               borderRadius: SIZES.radius,
               backgroundColor: COLORS.lightGray3,
             }}>
-            <Text style={{...FONTS.h3}}>{restaurant?.name}</Text>
+            <Text style={{...FONTS.h3}}>{restaurant?.categoryName}</Text>
           </View>
         </View>
 
@@ -154,12 +156,13 @@ const Restaurant = ({route, navigation}) => {
           [{nativeEvent: {contentOffset: {x: scrollX}}}],
           {useNativeDriver: false},
         )}>
-        {restaurant?.menu.map((item, index) => (
-          <View key={`menu-${index}`} style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'center'}}>
             <View style={{height: SIZES.height * 0.35}}>
               {/* Food Image */}
               <Image
-                source={item.photo}
+                source={{uri: restaurant.photo != null
+                  ? restaurant.photo
+                  : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWBAMAAADOL2zRAAAAG1BMVEXMzMyWlpajo6PFxcW3t7ecnJyqqqq+vr6xsbGXmO98AAAACXBIWXMAAA7EAAAOxAGVKw4bAAABPUlEQVRoge3Tv0/CQBjG8YcWaMcebymOENLI2MZoHMHEvVUKjq1K4lhM2Kvxx7/tUUiamDhc6GSez8INzbf3HleAiIiIiIiIiIiIiNozAGzvuJYTW2reXmso7bX8YN96HUR1a7RZ6+VVOgU+p4LuZGrSkqK0PWfwfl+3ht/hcpdvPkJ0g0fBYpYZtS7HttfPMatbAbZzJ1kjjnqVK1ihNzdpdX3b65S4qVsjXbG9EtuoEzliC/RbDFoIL7wY2NZrQayPzw1VpH/FUUqNjVrx0+9W8Rzrlt7yMMvMWq7fzHhoCTp6Rr0vw0uiH8+as69bov/AyNqf/Rms3Ky1aO7EYV93X2nlBIXg7WVSmrWs5q4eWrvVdYLbpR4/PTeZ8S9O82mdzMr7SVstV6mqrRaKh9ZSRERERERERET0n/wAZwMqI9kyPcoAAAAASUVORK5CYII=' }}
                 resizeMode="cover"
                 style={{
                   width: SIZES.width,
@@ -186,7 +189,7 @@ const Restaurant = ({route, navigation}) => {
                     borderTopLeftRadius: 25,
                     borderBottomLeftRadius: 25,
                   }}
-                  onPress={() => editOrder('-', item.menuId, item.price)}>
+                  onPress={() => editOrder('-', restaurant.id, restaurant.price)}>
                   <Text style={{...FONTS.body1}}>-</Text>
                 </TouchableOpacity>
 
@@ -197,7 +200,7 @@ const Restaurant = ({route, navigation}) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Text style={{...FONTS.h2}}>{getOrderQty(item.menuId)}</Text>
+                  <Text style={{...FONTS.h2}}>{getOrderQty(restaurant.id)}</Text>
                 </View>
 
                 <TouchableOpacity
@@ -209,7 +212,7 @@ const Restaurant = ({route, navigation}) => {
                     borderTopRightRadius: 25,
                     borderBottomRightRadius: 25,
                   }}
-                  onPress={() => editOrder('+', item.menuId, item.price)}>
+                  onPress={() => editOrder('+', restaurant.id, restaurant.price)}>
                   <Text style={{...FONTS.body1}}>+</Text>
                 </TouchableOpacity>
               </View>
@@ -225,9 +228,9 @@ const Restaurant = ({route, navigation}) => {
               }}>
               <Text
                 style={{marginVertical: 10, textAlign: 'center', ...FONTS.h2}}>
-                {item.name} - {item.price.toFixed(2)}
+                {restaurant.categoryName} - {parseInt(restaurant.price)}
               </Text>
-              <Text style={{...FONTS.body3}}>{item.description}</Text>
+              <Text style={{...FONTS.body3}}>{restaurant.description}</Text>
             </View>
 
             {/* Calories */}
@@ -250,69 +253,69 @@ const Restaurant = ({route, navigation}) => {
                   ...FONTS.body3,
                   color: COLORS.darygray,
                 }}>
-                {item.calories.toFixed(2)} cal
+                {restaurant.calory} cal
               </Text>
             </View>
           </View>
-        ))}
+        
       </Animated.ScrollView>
     );
   }
 
-  function renderDots() {
-    const dotPosition = Animated.divide(scrollX, SIZES.width);
+  // function renderDots() {
+  //   const dotPosition = Animated.divide(scrollX, SIZES.width);
 
-    return (
-      <View style={{height: 30}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: SIZES.padding,
-          }}>
-          {restaurant?.menu.map((item, index) => {
-            const opacity = dotPosition.interpolate({
-              inputRange: [index - 1, index, index + 1],
-              outputRange: [0.3, 1, 0.3],
-              extrapolate: 'clamp',
-            });
+  //   return (
+  //     <View style={{height: 30}}>
+  //       <View
+  //         style={{
+  //           flexDirection: 'row',
+  //           alignItems: 'center',
+  //           justifyContent: 'center',
+  //           height: SIZES.padding,
+  //         }}>
+  //         {Array.isArray(restaurant) ? restaurant.map((item, index) => {
+  //           const opacity = dotPosition.interpolate({
+  //             inputRange: [index - 1, index, index + 1],
+  //             outputRange: [0.3, 1, 0.3],
+  //             extrapolate: 'clamp',
+  //           });
 
-            const dotSize = dotPosition.interpolate({
-              inputRange: [index - 1, index, index + 1],
-              outputRange: [SIZES.base * 0.8, 10, SIZES.base * 0.8],
-              extrapolate: 'clamp',
-            });
+  //           const dotSize = dotPosition.interpolate({
+  //             inputRange: [index - 1, index, index + 1],
+  //             outputRange: [SIZES.base * 0.8, 10, SIZES.base * 0.8],
+  //             extrapolate: 'clamp',
+  //           });
 
-            const dotColor = dotPosition.interpolate({
-              inputRange: [index - 1, index, index + 1],
-              outputRange: [COLORS.darkgray, COLORS.orange, COLORS.darkgray],
-              extrapolate: 'clamp',
-            });
+  //           const dotColor = dotPosition.interpolate({
+  //             inputRange: [index - 1, index, index + 1],
+  //             outputRange: [COLORS.darkgray, COLORS.orange, COLORS.darkgray],
+  //             extrapolate: 'clamp',
+  //           });
 
-            return (
-              <Animated.View
-                key={`dot-${index}`}
-                opacity={opacity}
-                style={{
-                  borderRadius: SIZES.radius,
-                  marginHorizontal: 6,
-                  width: dotSize,
-                  height: dotSize,
-                  backgroundColor: dotColor,
-                }}
-              />
-            );
-          })}
-        </View>
-      </View>
-    );
-  }
+  //           return (
+  //             <Animated.View
+  //               key={`dot-${index}`}
+  //               opacity={opacity}
+  //               style={{
+  //                 borderRadius: SIZES.radius,
+  //                 marginHorizontal: 6,
+  //                 width: dotSize,
+  //                 height: dotSize,
+  //                 backgroundColor: dotColor,
+  //               }}
+  //             />
+  //           );
+  //         }): null}
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   function renderOrder() {
     return (
       <View>
-        {renderDots()}
+    
         <View
           style={{
             backgroundColor: COLORS.white,
@@ -363,7 +366,7 @@ const Restaurant = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {showPayment && <PaymentButton setShowPayment={setShowPayment} />}
+      {showPayment && <PaymentButton setShowPayment={setShowPayment} amount={restaurant.price} billingEmail={'setinsoft@gmail.com'} billingMobile={'08034074748'} billingName={'Jibril Mohammed'}/>}
       {renderHeader()}
       {renderFoodInfo()}
       {renderOrder()}
@@ -378,4 +381,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Restaurant;
+export default React.memo(Restaurant);

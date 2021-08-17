@@ -5,9 +5,16 @@ import Feather from 'react-native-vector-icons/Feather'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import Entypo from 'react-native-vector-icons/Entypo'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
 
-export { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, Feather, FontAwesome5, Fontisto}
+export { 
+    FontAwesome, Ionicons, MaterialCommunityIcons,
+    MaterialIcons, Feather, FontAwesome5, Fontisto,
+    Entypo, AntDesign, SimpleLineIcons
+}
 
 export const airplane = require('../assets/icons/airplane_icon.png');
 export const back = require('../assets/icons/back_icon.png');

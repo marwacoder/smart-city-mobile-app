@@ -4,11 +4,9 @@ import {Box, Text,Heading,Button,Image, Divider} from 'native-base'
 import { useNavigation } from '@react-navigation/native';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import {COLORS, FONTS, SIZES, images} from '../../constants'
+
+import {COLORS, icons} from '../../constants'
 import { TouchableOpacity } from 'react-native';
 
 
@@ -49,7 +47,7 @@ Sint reprehenderit veniam ut mollit sit tempor aliquip amet pariatur ipsum elit 
          <Box alignItems='center'>
          <TouchableOpacity>
          <View style={style.marker} >
-            <FontAwesome size={20} color={COLORS.blue}  name='star' />
+            <icons.FontAwesome size={20} color={COLORS.blue}  name='star' />
             </View>
             </TouchableOpacity>
             <Text>Rate</Text>
@@ -59,7 +57,7 @@ Sint reprehenderit veniam ut mollit sit tempor aliquip amet pariatur ipsum elit 
          <Box alignItems='center'>
          <TouchableOpacity>
          <View style={style.marker} >
-            <FontAwesome5 name="route" size={20} color={COLORS.blue}/>
+            <icons.FontAwesome5 name="route" size={20} color={COLORS.blue}/>
             
             </View>
             </TouchableOpacity>
@@ -71,7 +69,7 @@ Sint reprehenderit veniam ut mollit sit tempor aliquip amet pariatur ipsum elit 
          <TouchableOpacity>
          <View style={style.marker} >
 
-<FontAwesome size={20} color={COLORS.blue}  name='shopping-basket' />
+<icons.FontAwesome size={20} color={COLORS.blue}  name='shopping-basket' />
 </View>
 </TouchableOpacity>
 <Text>Oder</Text>
@@ -80,7 +78,7 @@ Sint reprehenderit veniam ut mollit sit tempor aliquip amet pariatur ipsum elit 
          <TouchableOpacity>
          <View style={style.marker} >
 
-<Ionicons size={20} color={COLORS.blue}  name='share' />
+<icons.Ionicons size={20} color={COLORS.blue}  name='share' />
 </View>
 </TouchableOpacity>
 <Text>Share</Text>

@@ -270,7 +270,7 @@ export default function Home({navigation}) {
             }}
             onScroll={Animated.event(
               [{nativeEvent: {contentOffset: {x: scrollX}}}],
-              {useNativeDriver: false},
+              {useNativeDriver: true},
             )}
             horizontal
             data={tour}

@@ -1,10 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions , Image, Animated} from 'react-native'
-import {Icon, Grid, Col,Row, Box, Button } from 'native-base';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import { Box, Button } from 'native-base';
 import {COLORS, SIZES, FONTS, icons, images} from '../../constants'
 import PaymentButton from '../Payment';
 
@@ -137,18 +133,18 @@ export default function CheckOut({route,navigation}) {
             billingEmail={'setinsoft@gmail.com'} billingMobile={'08034074748'} billingName={'Jibril Mohammed'}/>}
            <View style={styles.headerWrapper}>
             <TouchableOpacity onPress={()=> navigation.goBack()}>
-            <MaterialCommunityIcons size={25}  name='keyboard-backspace' 
+            <icons.MaterialCommunityIcons size={25}  name='keyboard-backspace' 
             />
             
           </TouchableOpacity>
           <Text style={styles.title}>Checkout</Text>
-          <MaterialIcons name='help-outline' size={25}/>
+          <icons.MaterialIcons name='help-outline' size={25}/>
             </View>
             
             <View style={styles.location}>
             <View style={[styles.rowspacebetween,{marginHorizontal: 30,marginVertical: 20}]}>
                 <View style={styles.iconWrapper}/>
-                <Text style={styles.dot}>...............{selectedIndex == 0 ? <SimpleLineIcons name='plane' size={25} />
+                <Text style={styles.dot}>...............{selectedIndex == 0 ? <icons.SimpleLineIcons name='plane' size={25} />
                : <Image  source={icons.train} style={{width: 25, height: 25}}/>}...............</Text>
                 <View style={styles.iconWrapper}/>
             </View>
@@ -191,7 +187,7 @@ export default function CheckOut({route,navigation}) {
             }}
             onScroll={Animated.event(
               [{nativeEvent: {contentOffset: {x: scrollX}}}],
-              {useNativeDriver: false},
+              {useNativeDriver: true},
             )}
             horizontal
             data={tour}
@@ -212,7 +208,7 @@ export default function CheckOut({route,navigation}) {
               Confirm Payment
             </Text>
             <Text style={{color: COLORS.grey, fontSize: SIZES.h3, }}>$512</Text>
-            <Ionicons  name='md-chevron-forward-sharp' size={25} color='white'/>
+            <icons.Ionicons  name='md-chevron-forward-sharp' size={25} color='white'/>
                    </View>
             
           </Button>

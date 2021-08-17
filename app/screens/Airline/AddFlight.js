@@ -14,23 +14,19 @@ import {
 import {
   View,
   StyleSheet,
-  Dimensions,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import Entypo from 'react-native-vector-icons/Entypo'
-import AntDesign from 'react-native-vector-icons/AntDesign'
+
 
 import ImagePicker from 'react-native-image-crop-picker';
-import {COLORS, icons, images} from '../../constants';
+import {icons} from '../../constants';
 
 const AddFlight = ({navigation}) => {
   const [shouldOverlapWithTrigger] = React.useState(false)
   const [photo, setPhoto] = React.useState(null);
-  const {width, height} = Dimensions.get('window');
+
 
 
   
@@ -78,7 +74,7 @@ const AddFlight = ({navigation}) => {
                         _focus={{
                           borderColor:"yellow.200"
                         }}
-                        InputLeftElement={<Ionicons name='airplane-outline'  size={25}/>}
+                        InputLeftElement={<icons.Ionicons name='airplane-outline'  size={25}/>}
                         mb={3}
                           placeholder="Plane Name"
                           
@@ -97,7 +93,7 @@ const AddFlight = ({navigation}) => {
                                 bg: 'blueGray.50'
                               }} _text={{
                                 color:'black'
-                              }}  startIcon={<AntDesign name='down'   size={20}/>} alignSelf="center"  {...triggerProps}></Button>
+                              }}  startIcon={<icons.AntDesign name='down'   size={20}/>} alignSelf="center"  {...triggerProps}></Button>
                             )
                           }}
                         >
@@ -105,7 +101,7 @@ const AddFlight = ({navigation}) => {
                           <Menu.Item>Large Menu item 2</Menu.Item>
                           <Menu.Item>Large Menu item 3</Menu.Item>
                         </Menu>}
-                        InputLeftElement={<Ionicons  size={25} name="grid-outline" />}
+                        InputLeftElement={<icons.Ionicons  size={25} name="grid-outline" />}
                         mb={3}
                           placeholder="Plane Type"
                           

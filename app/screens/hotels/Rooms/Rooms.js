@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import {Grid, Row, Col} from 'react-native-easy-grid';
 import {Box} from 'native-base';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {COLORS, SIZES, FONTS, icons} from '../../../constants/';
 
 import {rooms, hotels} from '../../../service/';
@@ -40,7 +39,7 @@ const Rooms = ({navigation}) => {
         
       </View>
       <View style={styles.searchInputContainer}>
-        <FontAwesome name="search" size={30} style={{marginLeft: 20}} />
+        <icons.FontAwesome name="search" size={30} style={{marginLeft: 20}} />
         <TextInput
           placeholder="Search"
           style={{fontSize: 20, paddingLeft: 10}}

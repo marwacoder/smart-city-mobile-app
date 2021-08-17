@@ -38,7 +38,7 @@ navigator.geolocation = require('@react-native-community/geolocation');
 import {RestaurantTabs, HomeTabs, HotelTabs, FlightTrainTabs} from './navigation/tabs';
 import {COLORS} from './app/constants/';
 import { Provider } from 'react-redux';
-import {store, persistor} from './app/store/rootReducer'
+import {store, persistor} from './app/store/index'
 
 
 const theme = extendTheme({
@@ -123,7 +123,7 @@ const App = () => {
          <NativeBaseProvider theme={theme}>
     <NavigationContainer >
       <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
-      <Stack.Navigator initialRouteName={'Onboarding'}>
+      <Stack.Navigator initialRouteName={'Home'}>
         {/* Screens */}
         <Stack.Screen
           name="Onboarding"
@@ -337,9 +337,21 @@ const App = () => {
         />
 
         {/* Placess */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Home"
           component={HomePlaces}
+          options={{
+            headerShown: false,
+            title: null,
+            headerStyle: {
+              backgroundColor: COLORS.white,
+            },
+          }}
+        /> */}
+        {/* Placess */}
+        <Stack.Screen
+          name="Home"
+          component={HomeTabs}
           options={{
             headerShown: false,
             title: null,

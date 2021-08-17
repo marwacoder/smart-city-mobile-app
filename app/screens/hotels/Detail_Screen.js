@@ -8,8 +8,9 @@ import {
   View,
 } from 'react-native';
 import {Button} from 'native-base';
-import {COLORS} from '../../constants/';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import {COLORS, icons} from '../../constants/';
+
+
 
 import PaymentButton from '../Payment';
 
@@ -32,14 +33,14 @@ const DetailsScreen = ({navigation, route}) => {
         />
         <ImageBackground style={style.headerImage} source={rooms.image}>
           <View style={style.header}>
-            <MaterialIcons
+            <icons.MaterialIcons
               name="arrow-back-ios"
             
               size={28}
               color={COLORS.white}
               onPress={navigation.goBack}
             />
-            <MaterialIcons
+            <icons.MaterialIcons
               name="bookmark-border"
             
               size={28}
@@ -49,7 +50,7 @@ const DetailsScreen = ({navigation, route}) => {
         </ImageBackground>
         <View>
           <View style={style.iconContainer}>
-            <MaterialIcons
+            <icons.MaterialIcons
               name="place"
             
               color={COLORS.white}
@@ -80,27 +81,27 @@ const DetailsScreen = ({navigation, route}) => {
               }}>
               <View style={{flexDirection: 'row'}}>
                 <View style={{flexDirection: 'row'}}>
-                  <MaterialIcons
+                  <icons.MaterialIcons
                     name="star"
                     size={20}
                     style={style.icon}
                   />
-                  <MaterialIcons
+                  <icons.MaterialIcons
                     name="star"
                     size={20}
                     style={style.icon}
                   />
-                  <MaterialIcons
+                  <icons.MaterialIcons
                     name="star"
                     size={20}
                     style={style.icon}
                   />
-                  <MaterialIcons
+                  <icons.MaterialIcons
                     name="star"
                     size={20}
                     style={style.icon}
                   />
-                  <MaterialIcons
+                  <icons.MaterialIcons
                     name="star"
                     size={20}
                     style={{color: COLORS.grey}}

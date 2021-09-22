@@ -23,7 +23,7 @@ import {icons} from '../../constants'
 
 import {launchImageLibrary} from 'react-native-image-picker'
 
-import {addBusiness} from '../../store/actions'
+import {addBusiness, getBusiness} from '../../store/actions'
 import {useDispatch, useSelector} from 'react-redux'
 
 
@@ -49,9 +49,10 @@ const AddItem = ({route, navigation}) => {
 const dispatch = useDispatch();
   const toast = useToast();
 
+
   const onShowPass =()=> setShowPass(!showPass)
  
-
+  
 
 
   const takeBusinessPhotoFromGallery = () => {
@@ -77,9 +78,11 @@ const dispatch = useDispatch();
   }, []);
 
 
+ 
+
  const onSubmitHandler = ()=> {
    
-  dispatch(addBusiness({photo, businessName, typeofBusiness, location, cordinate: {latitude, longitude}, email, phoneNumber, description, password}))
+  dispatch(addBusiness({photo, businessName, typeofBusiness, location, latitude, longitude, email, phoneNumber, description, password}))
   if (error === true ){
     toast.show({
     title: message,
@@ -186,7 +189,7 @@ const dispatch = useDispatch();
                         mb={3}
                           placeholder="Business Phone Number"
                           onChangeText={(text)=>setPhoneNumber(text)}
-                          value={email}
+                          value={phoneNumber}
                         />
 
                       <Input
@@ -266,7 +269,7 @@ const dispatch = useDispatch();
                       }} 
                       _text={{
                         color: "black",
-                      }}  isLoadingText="Submitting"  >SUBMIT</Button>
+                      }} isLoading={isLoading} isLoadingText="Submitting"  >SUBMIT</Button>
 
                       </Box>
             </FormControl>

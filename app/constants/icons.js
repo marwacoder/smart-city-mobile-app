@@ -15,7 +15,7 @@ export {
     MaterialIcons, Feather, FontAwesome5, Fontisto,
     Entypo, AntDesign, SimpleLineIcons
 }
-
+export const apartment = require('../assets/icons/apartment.png');
 export const airplane = require('../assets/icons/airplane_icon.png');
 export const back = require('../assets/icons/back_icon.png');
 export const barMenu = require('../assets/icons/bar_menu_icon.png');

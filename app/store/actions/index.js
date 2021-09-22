@@ -3,6 +3,74 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios'
 import mime from 'mime'
 
+const createFormData = (photo, body = {}) => {
+    
+    const pic = photo.assets[0]
+    const newUri = "file:///"+ pic.uri.split("file:/").join("")
+   
+      const data = new FormData();
+    
+      data.append('photo', {
+        name: newUri.split("/").pop(),
+        type: mime.getType(newUri),
+        uri: newUri,
+      });
+    
+      Object.keys(body).forEach((key) => {
+        data.append(key, body[key]);
+  
+  
+      });
+    
+      return data;
+    };
+
+    
+    const authStart = () => {
+        return {
+            type: actionTypes.AUTH_START
+        }
+    }
+    
+     const authSuccess = (payload) => {
+        return {
+            type:actionTypes.AUTH_SUCCESS,
+            payload
+        }
+    }
+    
+     const authFail = (payload) => {
+        return {
+            type: actionTypes.AUTH_FAIL,
+            payload
+        };
+    };
+    
+    
+    export const authRefresh = () => {
+        return {
+            type: actionTypes.AUTH_REFRESH
+        };
+    };
+    
+    
+    
+    export const authenticated =({email, password})=> {
+    
+        return (dispatch)=>{
+            dispatch(authStart())
+            axios.post('https://smartct.herokuapp.com/smartct/login/action',{email, password}).then((response)=>{
+                
+                setTimeout(()=> {dispatch(authSuccess(response.data))},2000)
+                
+            }).catch((error)=>{
+                dispatch(authFail(error.response ? error.response.data.msg :'Network Error'))
+            })
+    
+        }
+    }
+    
+   
 //DRIVERS LOCATION
 
   const getDriverPositionStart = () => {
@@ -38,7 +106,7 @@ export const getDriverPositionRefresh = () => {
         Geolocation.getCurrentPosition((position)=>{
         dispatch(getDriverPositionSuccess(position.coords));
         },
-        ()=> dispatch(getDriverPositionFail('Network Error')),
+        ()=> setTimeout(()=> dispatch(getDriverPositionFail('Network Error')),2100) ,
         {enableHightAccuracy: true, timeout: 2000, maximumAge: 1000})
     }
     
@@ -72,30 +140,7 @@ export const addFoodMenuRefresh = () => {
     };
 };
 
-const createFormData = (photo, body = {}) => {
-    
-    const pic = photo.assets[0]
-    const newUri = "file:///"+ pic.uri.split("file:/").join("")
-   
-      const data = new FormData();
-    
-      data.append('photo', {
-        name: newUri.split("/").pop(),
-        type: mime.getType(newUri),
-        uri: newUri,
-      });
-    
-      Object.keys(body).forEach((key) => {
-        data.append(key, body[key]);
-  
-  
-      });
-    
-      return data;
-    };
 
-    
-   
 
 export const addFoodMenu =({photo, menuName, menuType})=> {
 
@@ -283,19 +328,63 @@ export const addBusinessRefresh = () => {
 };
 
 
-export const addBusiness =({photo, businessName, typeofBusiness, location, cordinate, email, phoneNumber, description, password})=> {
+export const addBusiness =({photo, businessName, typeofBusiness, location, latitude, longitude, email, phoneNumber, description, password})=> {
 
     return (dispatch)=>{
         dispatch(addBusinessStart())
-        axios.post('https://smartct.herokuapp.com/smartct/business',createFormData(photo, {businessName, typeofBusiness, location, cordinate,email, phoneNumber, description, password})).then((response)=>{
+        axios.post('https://smartct.herokuapp.com/smartct/business',createFormData(photo, {businessName, typeofBusiness, location, latitude, longitude ,email, phoneNumber, description, password})).then((response)=>{
             dispatch(addBusinessSuccess(response.data))
         setTimeout(()=>{
             dispatch(getBusiness())
         },1000)    
         
         }).catch((error)=>{
-            console.log(error,'err')
+            console.log(error.response,'err')
             if(error)  dispatch(addBusinessFail(error.response !== undefined ? error.response.data.msg :'Network Error'))
+        })
+
+    }
+}
+
+
+const addUserStart = () => {
+    return {
+        type: actionTypes.ADD_USER_START
+    }
+}
+
+ const addUserSuccess = (payload) => {
+    return {
+        type:actionTypes.ADD_USER_SUCCESS,
+        payload
+    }
+}
+
+ const addUserFail = (payload) => {
+    return {
+        type: actionTypes.ADD_USER_FAIL,
+        payload
+    };
+};
+
+
+export const addUserRefresh = () => {
+    return {
+        type: actionTypes.ADD_USER_REFRESH
+    };
+};
+
+
+export const addUser =({name, email, password})=> {
+
+    return (dispatch)=>{
+        dispatch(addUserStart())
+        axios.post('https://smartct.herokuapp.com/smartct/register/action',{name, email, password}).then((response)=>{
+            dispatch(addUserSuccess(response.data))    
+        
+        }).catch((error)=>{
+            console.log(error.response,'user')
+            if(error)  dispatch(addUserFail(error.response !== undefined ? error.response.data.msg :'Network Error'))
         })
 
     }

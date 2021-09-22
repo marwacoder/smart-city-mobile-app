@@ -1,12 +1,12 @@
 import React from 'react';
-import {Image, TouchableOpacity, StatusBar} from 'react-native';
+import { StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NativeBaseProvider, extendTheme} from 'native-base'
 import {
   createBottomTabNavigator,
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
-import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 // screens
 import {
@@ -30,12 +30,16 @@ import {
   FlightCheckout,
   FlightCheckoutInfo,
   HomePlaces,
-  HomeTrain
+  HomeTrain,
+  Login,
+  SignUp,
+  AddApartment,
+
 } from './app/screens/index';
 // extra screens
 import { PersistGate } from 'redux-persist/integration/react';
 navigator.geolocation = require('@react-native-community/geolocation');
-import {RestaurantTabs, HomeTabs, HotelTabs, FlightTrainTabs} from './navigation/tabs';
+import {RestaurantTabs, HomeTabs, HotelTabs, FlightTrainTabs, ApartmentTabs} from './navigation/tabs';
 import {COLORS} from './app/constants/';
 import { Provider } from 'react-redux';
 import {store, persistor} from './app/store/index'
@@ -123,11 +127,27 @@ const App = () => {
          <NativeBaseProvider theme={theme}>
     <NavigationContainer >
       <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
-      <Stack.Navigator initialRouteName={'Home'}>
+      <Stack.Navigator initialRouteName={'Onboarding'}>
         {/* Screens */}
         <Stack.Screen
           name="Onboarding"
           component={Onboarding}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+          <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
           options={{
             headerShown: false,
           }}
@@ -155,6 +175,13 @@ const App = () => {
           name="restaurants"
           component={Restaurants}
         />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="AddApartment"
+          component={AddApartment}
+        />
         
 
         {/* Tabs */}
@@ -170,8 +197,19 @@ const App = () => {
             },
           }}
         />
+         <Stack.Screen
+          name="Apartment"
+          component={ApartmentTabs}
+          options={{
+            headerShown: false,
+            title: null,
+            headerStyle: {
+              backgroundColor: COLORS.white
+            },
+          }}
+        />
         <Stack.Screen
-          name="Airport"
+          name="AirRailport"
           component={FlightTrainTabs}
           options={{
             headerShown: false,
@@ -337,8 +375,8 @@ const App = () => {
         />
 
         {/* Placess */}
-        {/* <Stack.Screen
-          name="Home"
+        <Stack.Screen
+          name="Places"
           component={HomePlaces}
           options={{
             headerShown: false,
@@ -347,7 +385,7 @@ const App = () => {
               backgroundColor: COLORS.white,
             },
           }}
-        /> */}
+        />
         {/* Placess */}
         <Stack.Screen
           name="Home"

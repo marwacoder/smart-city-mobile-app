@@ -6,19 +6,13 @@ import {
   Dimensions,
   Animated,
   FlatList,
-  BackHandler,
-  RefreshControl,
-  SafeAreaView,
-  ScrollView,
   Image,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Input, Flex, Box, Center, Text, useToast, Spinner} from 'native-base';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
+import {getBusiness} from '../../store/actions'
 
-
-
-import MapViewDirections from 'react-native-maps-directions';
 
 import {
   COLORS,
@@ -212,13 +206,15 @@ const styles = StyleSheet.create({
     {id: 3, category: 'Hotel'},
     {id: 4, category: 'Apartment'},
     {id: 5, category: 'Airport'},
-    {id: 6, category: 'Taxi'},
-    {id: 7, category: 'Logistics'},
+    {id: 6, category: 'Hospital'},
+    {id: 7, category: 'Taxi'},
+    {id: 8, category: 'Logistics'},
   ];
 
   const bs = React.useRef();
   const toast = useToast();
   const {data, isLoading, message, error} = useSelector(state => state.driver);
+  const {business} = useSelector(state => state.business);
 
   const [sheetContent, setSheetContent] = React.useState({});
 
@@ -227,25 +223,16 @@ const styles = StyleSheet.create({
   const [toLocation, setToLocation] = React.useState([]);
   const [region, setRegion] = React.useState(null);
 
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  // console.log(message,'mmmm')
-
-  // const wait = (timeout) => {
-  //   return new Promise(resolve => setTimeout(resolve, timeout));
   
-  // }
-
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   wait(2000).then(() => setRefreshing(false));
-  // }, []);
 
   
   React.useEffect(() => {
     setBusinessName('Aluna Hotel');
-    setToLocation(restaurant);
+
+    
     dispatch(getDriversCurrentLocation());
+    dispatch(getBusiness())
+    setToLocation(business)
 
     if(error === true ) {
         toast.show({
@@ -342,10 +329,10 @@ const styles = StyleSheet.create({
 
   const setSelectedHandler = item => {
     setSelectedCategoryIndex(item.id);
-    const buzName = restaurant.filter(
+    const buzName = business.filter(
       biz => biz.typeofBusiness === item.category,
     );
-    if (item.category === 'All') return setToLocation(restaurant);
+    if (item.category === 'All') return setToLocation(business);
     if (buzName) {
       setToLocation(buzName);
     }
@@ -476,6 +463,7 @@ const styles = StyleSheet.create({
       
       { !isLoading ?
       <MapView
+      showsBuildings
         ref={mapView}
         provider={PROVIDER_GOOGLE}
         initialRegion={mapRegion}
@@ -506,6 +494,7 @@ const styles = StyleSheet.create({
           </Box>
         </Marker>
         {/* onPress={()=> navigation.navigate(cor.typeofBusiness)} */}
+    
         {toLocation.length > 0 &&
           toLocation.map((cor, index) => (
             <Marker
@@ -515,8 +504,8 @@ const styles = StyleSheet.create({
                 bs.current.snapTo(0);
               }}
               coordinate={{
-                longitude: cor.cordinate.longitude,
-                latitude: cor.cordinate.latitude,
+                longitude: parseFloat(cor.longitude),
+                latitude: parseFloat(cor.latitude),
               }}>
               {cor.typeofBusiness === 'Restaurant' ? (
                 <Box direction="column">
@@ -536,10 +525,30 @@ const styles = StyleSheet.create({
                     />
                   </Center>
                 </Box>
-              ) : cor.typeofBusiness === 'Hotel' ? (
+              ): cor.typeofBusiness === 'Hospital' ? (
                 <Box direction="column">
                   <Center>
                     <Text fontSize="xs">{cor.businessName}</Text>
+                    <icons.Ionicons
+                      name="hospital-o"
+                      size={25}
+                      color="#02b59d"
+                    />
+                  </Center>
+                  <Center mt={-1}>
+                    <icons.FontAwesome
+                      name="map-marker"
+                      size={25}
+                      color="#02b59d"
+                    />
+                  </Center>
+                </Box>
+              )
+               : cor.typeofBusiness === 'Hotel' ? (
+                <Box direction="column">
+                  <Center>
+                    <Text fontSize="xs">{cor.businessName}</Text>
+                    {console.log(cor.typeofBusiness,'checking')}
                     <icons.Fontisto name="hotel" size={25} color="#02b59d" />
                   </Center>
                   <Center>
@@ -575,7 +584,7 @@ const styles = StyleSheet.create({
                     <Image source={icons.car} style={{width: 70, height: 70}} />
                   </Center>
                 </Box>
-              )  : null}
+              )  : console.log('no route')}
             </Marker>
           ))}
 

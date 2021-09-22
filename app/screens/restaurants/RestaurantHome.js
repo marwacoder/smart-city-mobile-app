@@ -276,14 +276,14 @@ setSelectedIndex  (menus.length > 0 ? menus[0].id : null)
     //     }
 
     //     return '';
-    let f = selectedCategory.filter(
-      a => a.categoryName.substring(0, 1) || a.categoryName.substring(0, 2) == categoryName.substring(0, 2),
-    );
+    // let f = selectedCategory.filter(
+    //   a => a.categoryName.substring(0, 1) || a.categoryName.substring(0, 2) == categoryName.substring(0, 2),
+    // );
       
     return (
       <Box>
         <FlatList
-        data={f || []}
+        data={selectedCategory || []}
         keyExtractor={item => `${item.id}`}
         renderItem={renderItem}
         contentContainerStyle={{

@@ -100,7 +100,7 @@ const AddRoom = ({route, navigation}) => {
                 Comfort{' '}
                 </Text>
                 <Text color='singletons.black' fontWeight='bold' fontSize='3xl'>
-                  Suite
+                  Apartment
                 </Text>
               </View>
             </View>
@@ -147,15 +147,7 @@ const AddRoom = ({route, navigation}) => {
                           placeholder="Price"
                           
                         />
-                        <Input
-                        _focus={{
-                          borderColor:"yellow.200"
-                        }}
-                        InputLeftElement={<MaterialIcons  size={25} name="smoking-rooms" />}
-                        mb={3}
-                          placeholder="Smoke"
-                          
-                        />
+                   
                         <TextArea
                         _focus={{
                           borderColor:"yellow.200"

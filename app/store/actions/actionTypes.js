@@ -1,4 +1,15 @@
 
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_REFRESH = 'AUTH_REFRESH';
+
+
+export const ADD_USER_START = 'ADD_USER_START';
+export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS';
+export const ADD_USER_FAIL = 'ADD_USER_FAIL';
+export const ADD_USER_REFRESH = 'ADD_USER_REFRESH';
+
 export const GET_BUSINESS_START = 'GET_BUSINESS_START';
 export const GET_BUSINESS_SUCCESS = 'GET_BUSINESS_SUCCESS';
 export const GET_BUSINESS_FAIL = 'GET_BUSINESS_FAIL';

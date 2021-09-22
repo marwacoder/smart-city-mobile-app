@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  Image,
   StyleSheet,
   TextInput,
   Animated,
@@ -9,13 +10,20 @@ import {
   Dimensions
 } from 'react-native';
 import {
+  Container,
+  Header,
+  VStack,
   HStack,
  Box,
   Stack,
   Text,
   Button,
+  Icon,
+  Left,
+  Body,
+  Right,
   List,
-  Spinner,
+  ListItem,
   Avatar,
   Center,
 } from 'native-base';
@@ -23,32 +31,47 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {COLORS, FONTS} from '../../constants/';
-import {useDispatch, useSelector} from 'react-redux'
-
-import {getBusiness} from '../../store/actions'
 
 const {width, height} = Dimensions.get('screen')
 
+const hotels = [
+  {
+    id: '1',
+    name: 'Silver Hotel & SPA',
+    location: 'Green street,Central district',
+    price: 120,
+    image: require('../../assets/images/hotel1.jpg'),
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consequat nisl vel pretium lectus quam id leo. Velit euismod in pellentesque massa placerat duis ultricies lacus sed. Justo laoreet sit amet cursus sit`,
+  },
+  {
+    id: '2',
+    name: 'Bring Hotel',
+    location: 'Yuki street',
+    price: 70,
+    image: require('../../assets/images/hotel2.jpg'),
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consequat nisl vel pretium lectus quam id leo. Velit euismod in pellentesque massa placerat duis ultricies lacus sed. Justo laoreet sit amet cursus sit`,
+  },
+  {
+    id: '3',
+    name: 'Aluna Hotel',
+    location: 'Almond street',
+    price: 90,
+    image: require('../../assets/images/hotel3.jpg'),
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consequat nisl vel pretium lectus quam id leo. Velit euismod in pellentesque massa placerat duis ultricies lacus sed. Justo laoreet sit amet cursus sit`,
+  },
+  {
+    id: '4',
+    name: 'Green Hotel',
+    location: 'Main street',
+    price: 100,
+    image: require('../../assets/images/hotel4.jpg'),
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consequat nisl vel pretium lectus quam id leo. Velit euismod in pellentesque massa placerat duis ultricies lacus sed. Justo laoreet sit amet cursus sit`,
+  },
+];
+
 function Business({navigation}) {
+  const [hotel, setHotels] = React.useState(hotels);
 
-  const {business, message, isLoading, error } =  useSelector(state => state.business || [])
-  const dispatch = useDispatch()
-
-
-
-
-  React.useEffect(()=>{
-    const controller = new AbortController();
-
-    dispatch(getBusiness())
-
-    return ()=> {
-      controller.abort()
-    }
-  },[])
-
-
-  
   const VisibleItem = props => {
     const {
       data,
@@ -78,13 +101,13 @@ function Business({navigation}) {
         <HStack space={1}  alignItems="center">
          
         <Center>
-        <Avatar source={{uri: data.item.photo}} />
+        <Avatar source={data.item.image} />
         </Center>
         <Center>
           <Box >
           <Box flexDirection='row' justifyContent='space-between' alignContent='center'>
             <Center>
-              <Text  fontWeight='bold' >{data.item.businessName}</Text>
+              <Text  fontWeight='bold' >{data.item.name}</Text>
             </Center>
             <Center>
             <Text mr={width / 9}  fontSize={12}>
@@ -208,7 +231,7 @@ function Business({navigation}) {
         rowMap={rowMap}
         rowActionAnimatedValue={rowActionAnimatedValue}
         rowHeightAnimatedValue={rowHeightAnimatedValue}
-        onEdit={() => navigation.navigate('AddBusiness', data.item)}
+        onEdit={() => navigation.navigate('AddApartment', data.item)}
         onDelete={() => deleteRow(rowMap, data.item.id)}
       />
     );
@@ -221,7 +244,7 @@ function Business({navigation}) {
           <View style={{flexDirection: 'row'}}>
             <Text style={{fontSize: 30, fontWeight: 'bold'}}> </Text>
             <Text fontSize='3xl' fontWeight='bold' color='yellow.500'>
-              Businesses
+              Apartment
             </Text>
           </View>
         </View>
@@ -236,8 +259,8 @@ function Business({navigation}) {
         h={12}
         variant={"solid"} bg='blueGray.700'
         startIcon={<MaterialIcons size={20} type="MaterialIcons" name="business" />}
-          onPress={() => navigation.navigate('AddBusiness')}>
-          ADD BUSINESS
+          onPress={() => navigation.navigate('AddApartment')}>
+          ADD ROOM
         </Button>
       </Box>
       <View style={styles.searchInputContainer}>
@@ -248,9 +271,8 @@ function Business({navigation}) {
         />
       </View>
       <View style={{marginBottom: 250}}>
-      {isLoading ? <Spinner color='#eab308' position='absolute' left='50%' top='50%'/> : 
         <SwipeListView
-          data={business}
+          data={hotel}
           renderHiddenItem={renderHiddenItem}
           renderItem={renderItem}
           leftOpenValue={75}
@@ -261,7 +283,6 @@ function Business({navigation}) {
           leftActionValue={0}
           rightActionValue={-500}
         />
-      }
       </View>
     </Box>
   );

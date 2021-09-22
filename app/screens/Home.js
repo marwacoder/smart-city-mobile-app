@@ -4,21 +4,14 @@ import {
   View,
   Image,
   TouchableOpacity,
-  TextInput,
+  
 } from 'react-native';
 import { Text} from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {images, COLORS, FONTS, SIZES, icons} from '../constants/';
 
-const homePlace = {
-  description: 'Home',
-  geometry: {location: {lat: 48.8152937, lng: 2.4597668}},
-};
-const workPlace = {
-  description: 'Work',
-  geometry: {location: {lat: 48.8496818, lng: 2.2940881}},
-};
+
 
 const OptionItem = ({bgColor, icon, label, onPress}) => {
   return (
@@ -52,7 +45,7 @@ const OptionItem = ({bgColor, icon, label, onPress}) => {
         
       </View>
       <Text
-        style={{marginTop: SIZES.base, color: COLORS.res_grey, ...FONTS.body3}}>
+        style={{marginTop: SIZES.base, color: COLORS.black, ...FONTS.body3}}>
         {label}
       </Text>
     </TouchableOpacity>
@@ -93,7 +86,7 @@ const Home = ({navigation}) => {
             bgColor={['#46aeff', '#5884ff']}
             label="Flight"
             onPress={() => {
-              navigation.navigate('Airline');
+              navigation.navigate('AirRailport',  'flight');
             }}
           />
           <OptionItem
@@ -101,7 +94,7 @@ const Home = ({navigation}) => {
             bgColor={['#fddf90', '#fcda13']}
             label="Train"
             onPress={() => {
-              navigation.navigate('Train');
+              navigation.navigate('AirRailport',{item: 'train'});
             }}
           />
           <OptionItem
@@ -132,29 +125,27 @@ const Home = ({navigation}) => {
             icon={icons.bed}
             bgColor={['#ffc465', '#ff9c5f']}
             label="Hotel"
-            onPress={() => navigation.navigate('HotelTabs')}
+            onPress={() => navigation.navigate('Hotel')}
           />
           <OptionItem
             icon={icons.eat}
             bgColor={['#7cf1fb', '#4ebefd']}
             label="Eats"
-            onPress={() => navigation.navigate('restaurants')}
+            onPress={() => navigation.navigate('Restaurant')}
           />
           <OptionItem
             icon={icons.compass}
             bgColor={['#7be993', '#46caaf']}
             label="Adventure"
             onPress={() => {
-              navigation.navigate('placesHome')
+              navigation.navigate('Places')
             }}
           />
           <OptionItem
-            icon={icons.event}
+            icon={icons.apartment}
             bgColor={['#fca397', '#fc7b6c']}
-            label="Event"
-            onPress={() => {
-              console.log('Event');
-            }}
+            label="Apartment"
+            onPress={() => navigation.navigate('Apartment')}
           />
         </View>
       </View>

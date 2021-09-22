@@ -23,7 +23,10 @@ import {
   AirlineHome,
   AddFlight,
   Room_Screen,
-  Rooms
+  Rooms,
+  AddApartment,
+  Apartment,
+  Login
 } from '../app/screens/';
 
 import {COLORS, icons} from '../app/constants';
@@ -261,6 +264,93 @@ const HotelTabs = () => {
     </Tab.Navigator>
   );
 };
+
+const ApartmentTabs = () => {
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+          right: 0,
+          borderTopWidth: 0,
+          backgroundColor: 'transparent',
+          elevation: 0,
+        },
+      }}
+      tabBar={props => <CustomTabBar props={props} />}>
+      <Tab.Screen
+        name="Hotel"
+        component={Apartment}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <Ionicons
+              name="home"
+              size={25}
+              color={focused ? COLORS.primary : COLORS.secondary}
+            />
+          ),
+          tabBarButton: props => <TabBarCustomButton {...props} />,
+        }}
+      />
+
+      <Tab.Screen
+        name="Search"
+        component={Search_Screen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={icons.search}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.primary : COLORS.secondary,
+              }}
+            />
+          ),
+          tabBarButton: props => <TabBarCustomButton {...props} />,
+        }}
+      />
+
+      <Tab.Screen
+        name="User"
+        component={User_Screen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <FontAwesome
+              name="user-circle"
+              size={25}
+              color={focused ? COLORS.primary : COLORS.secondary}
+            />
+          ),
+          tabBarButton: props => <TabBarCustomButton {...props} />,
+        }}
+      />
+
+      <Tab.Screen
+        name="Admin"
+        component={AddApartment}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={icons.admin_with_cogwheels}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.primary : COLORS.secondary,
+              }}
+            />
+          ),
+          tabBarButton: props => <TabBarCustomButton {...props} />,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 const HomeTabs = () => {
   return (
     <Tab.Navigator
@@ -288,52 +378,17 @@ const HomeTabs = () => {
               size={25}
               style={{
                
-                color: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? '#eab308' : COLORS.secondary,
               }}
             />
           ),
           tabBarButton: props => <TabBarCustomButton {...props} />,
         }}
       />
+    
+     
 
-      <Tab.Screen
-        name="Search"
-        component={Search_Screen}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <Image
-              source={icons.search}
-              resizeMode="contain"
-              style={{
-                width: 25,
-                height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
-              }}
-            />
-          ),
-          tabBarButton: props => <TabBarCustomButton {...props} />,
-        }}
-      />
-
-      <Tab.Screen
-        name="User"
-        component={User_Screen}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <FontAwesome
-              name="user-circle"
-              type="FontAwesome"
-              size={25}
-              style={{
-               
-                color: focused ? COLORS.primary : COLORS.secondary,
-              }}
-            />
-          ),
-          tabBarButton: props => <TabBarCustomButton {...props} />,
-        }}
-      />
-
+     
       <Tab.Screen
         name="Admin"
         component={Business}
@@ -345,7 +400,7 @@ const HomeTabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                tintColor: focused ? '#eab308' : COLORS.secondary,
               }}
             />
           ),
@@ -353,6 +408,7 @@ const HomeTabs = () => {
         }}
       />
     </Tab.Navigator>
+    
   );
 };
 const FlightTrainTabs = () => {
@@ -380,7 +436,7 @@ const FlightTrainTabs = () => {
               name="home"
               size={25}
               style={{
-                color: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? '#eab308' : COLORS.secondary,
               }}
             />
           ),
@@ -399,7 +455,7 @@ const FlightTrainTabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                tintColor: focused ? '#eab308' : COLORS.secondary,
               }}
             />
           ),
@@ -416,7 +472,7 @@ const FlightTrainTabs = () => {
               name="user-circle"
               size={25}
               style={{
-                color: focused ? COLORS.primary : COLORS.secondary,
+                color: focused ? '#eab308' : COLORS.secondary,
               }}
             />
           ),
@@ -435,7 +491,7 @@ const FlightTrainTabs = () => {
               style={{
                 width: 25,
                 height: 25,
-                tintColor: focused ? COLORS.primary : COLORS.secondary,
+                tintColor: focused ? '#eab308' : COLORS.secondary,
               }}
             />
           ),
@@ -446,4 +502,4 @@ const FlightTrainTabs = () => {
   );
 };
 
-module.exports = {RestaurantTabs, HomeTabs, HotelTabs, FlightTrainTabs};
+module.exports = {RestaurantTabs, HomeTabs, HotelTabs, FlightTrainTabs, ApartmentTabs};

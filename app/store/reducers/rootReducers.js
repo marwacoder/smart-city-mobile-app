@@ -1,13 +1,19 @@
 import {combineReducers} from 'redux'
-import businessReducer from './businessReducer'
-import driverReducer from './driverReducer'
+import business from './businessReducer'
+import driver from './driverReducer'
 import restaurant from './restaurant'
+import authenticate from './auth'
+import register from './register'
+
+
 
 
 export const reducers = {
   restaurant,
-  business: businessReducer,
-driver: driverReducer
+  business,
+driver,
+auth: authenticate,
+register
 };
 
 

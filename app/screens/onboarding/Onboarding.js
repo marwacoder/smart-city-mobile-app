@@ -9,12 +9,22 @@ import ScreenOne from './ScreenOne'
 import ScreenTwo from './ScreenTwo'
 import ScreenThree from './ScreenThree'
 
+import { useSelector} from 'react-redux'
 
 // theme
 const OnBoarding = ({navigation}) => {
 
+  const {  isLoggedIn} = useSelector(state => state.auth || {})
+
+  React.useEffect(()=>{
+
+    // if(isLoggedIn) return navigation.navigate('Home')
+      
+  },[])
   const Board = useMemo(()=> (
-    <Swipe loop={false} activeDotColor='#4F3E9C'>
+
+    
+    <Swipe loop={false} activeDotColor='#eab308'>
        <ScreenOne navigation={navigation} />
        <ScreenTwo navigation={navigation} />
        <ScreenThree navigation={navigation}/>

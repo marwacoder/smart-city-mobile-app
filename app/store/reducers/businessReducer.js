@@ -13,10 +13,11 @@ import * as actionTypes from '../actions/actionTypes'
         return {isLoading: true};
       case actionTypes.ADD_BUSINESS_SUCCESS:
         return { 
+          ...state,
             error: false,
             message: action.payload.msg,
             isLoading: false,
-            menus: state.business
+            business: state.business
          };
       case actionTypes.ADD_BUSINESS_FAIL:
         return {
@@ -30,10 +31,10 @@ import * as actionTypes from '../actions/actionTypes'
           return {isLoading: true};
         case actionTypes.GET_BUSINESS_SUCCESS:
           return { 
+            ...state,
               error: false,
-              message: action.payload.msg,
               isLoading: false,
-              menus: state.business
+              business: action.payload
            };
         case actionTypes.GET_BUSINESS_FAIL:
           return {

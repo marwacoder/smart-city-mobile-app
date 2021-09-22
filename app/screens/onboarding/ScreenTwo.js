@@ -14,7 +14,7 @@ export default function ScreenThree({navigation}) {
                 <Center>
                 <Text alignItems='center' fontSize={20} mb={2} fontWeight='bold'>Navigation</Text>
                 <Box>
-                    <Text fontWeight={400} fontSize={18} color='#4F3E9C' w={300}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut</Text>
+                    <Text fontWeight={400} fontSize={18} color='black' w={300}>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut</Text>
                 </Box>
                 </Center>
             </Box>
@@ -24,11 +24,12 @@ export default function ScreenThree({navigation}) {
             shadow={1}
             w={70}
             h={50}
+            _pressed={{bg: 'yellow.300'}}
             borderRadius={50}
             onPress={() => {
-                navigation.navigate('Home');
+                navigation.navigate('Login');
               }}
-       bg='#4F3E9C'
+              bg='yellow.500'
       >Skip</Button>
             </Box>
         </Box>

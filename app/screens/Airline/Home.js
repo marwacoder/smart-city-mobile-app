@@ -95,11 +95,14 @@ const styles = StyleSheet.create({
   },
 })
 
-export default function Home({navigation}) {
+export default function Home({route, navigation}) {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const [shouldOverlapWithTrigger] = React.useState(false)
+
+ 
+
 
   const btn = [
     {title: 'Flight', icon: <Ionicons color={ selectedIndex == 0 ? 'white': 'black'} name='airplane-outline' size={25}/>},
@@ -108,6 +111,21 @@ export default function Home({navigation}) {
   const colorCodeHandler =(index)=>{
     setSelectedIndex(index)
 }
+
+console.log(route,'ooooo')
+
+React.useEffect(() => {
+
+
+  
+});
+
+
+React.useEffect(()=> {
+
+
+
+},[])
   
   const Card = ({image, index}) => {
     const inputRange = [
